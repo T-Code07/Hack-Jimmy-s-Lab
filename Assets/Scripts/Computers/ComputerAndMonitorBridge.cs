@@ -1,0 +1,75 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using Hacker.Computer.UI;
+using Hacker.Computer.Core;
+namespace Hacker.Computer
+{
+
+
+    /// <summary>
+    /// This bridges the gap between the UI controls and the hard computer data.
+    /// </summary>
+    [RequireComponent(typeof(InteractWithMonitor))]
+    public class ComputerAndMonitorBridge : MonoBehaviour
+    {
+        private AbstractComputer m_computerBrain;
+        private InteractWithMonitor m_monitor;
+        private bool m_computerCreated = false; 
+        public string m_computerOwner = "Tawesome07";
+        public HackerLevel m_hackerlevel = HackerLevel.NOOB;
+      
+
+        private void Start()
+        {
+            m_computerBrain = new AbstractComputer(m_computerOwner, gameObject);
+            m_computerCreated = true; 
+            m_monitor = GetComponent<InteractWithMonitor>();
+
+            m_monitor.SetOwnerLabel(m_computerBrain.Owner);
+        }
+    
+        //Public so that there can be a unity message broadcasted to it from the computer class.
+        /// <summary>
+        /// This will put the text on the monitor from the computer script. 
+        /// </summary>
+        /// <param name="textData">Must always be in the format 0 = [Text] 1 = [addText?]</param>
+        public void ShowTextBridge(object[] textData)
+        {
+            string text = (string)textData[0];
+            bool addText = (bool)textData[1];
+            
+            m_monitor.ShowText(text, addText);
+        }
+
+        public void RunCommand(string command)
+        {
+            bool foundCommand = false; 
+            
+            foreach(ConsoleCommand consoleCommand in m_computerBrain.ConsoleCommandList)
+            {
+                
+                if(command == consoleCommand.ToString().ToLower())
+                {
+                    
+                   
+                    m_computerBrain.ImplementCommand(consoleCommand);
+                    foundCommand = true; 
+                    break;
+                }
+                
+            }
+            if (!foundCommand)
+            {
+                bool addToMonitor = false;
+                if(m_computerBrain.ComputerState == ComputerStates.RUNNING_COMMAND)
+                {
+                    addToMonitor = true;
+                }
+                m_monitor.ShowText("This is not a command.", addToMonitor);
+
+            }
+            m_computerBrain.UsedCommands.Add(command);
+        }
+    }
+}
