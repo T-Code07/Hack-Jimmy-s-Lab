@@ -26,6 +26,10 @@ namespace Hacker.Computer.UI
             m_inputField.onEndEdit.AddListener(OnInputChanged);
             m_monitor.text = "";
             m_bridge = GetComponent<ComputerAndMonitorBridge>();
+
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+
         }
 
         //Called in the bridge class

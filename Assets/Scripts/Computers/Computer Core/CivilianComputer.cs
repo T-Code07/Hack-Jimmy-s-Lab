@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Hacker.Computer.Core
 {
@@ -8,8 +9,8 @@ namespace Hacker.Computer.Core
     {
 
         //Constructor 
-        public CivilianComputer(string owner,  GameObject gameObject, int CPUs = B_DEFAULT_CPUs, int memory = B_DEFAULT_MEMORY, SecurityLevel securityLevel = B_DEFAULT_SECURITY_LEVEL)
-            : base(owner,  gameObject, CPUs, memory, securityLevel)
+        public CivilianComputer(string owner,  GameObject gameObject, int sceneIndex, int CPUs = B_DEFAULT_CPUs, int memory = B_DEFAULT_MEMORY, SecurityLevel securityLevel = B_DEFAULT_SECURITY_LEVEL)
+            : base(owner,  gameObject, sceneIndex, CPUs, memory, securityLevel)
         {
             print("Look who has a computer now!");
 

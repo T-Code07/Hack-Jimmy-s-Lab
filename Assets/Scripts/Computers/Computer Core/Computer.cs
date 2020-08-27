@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Hacker.Computer;
+using UnityEngine.SceneManagement;
 namespace Hacker.Computer.Core
 { 
     /*
@@ -75,6 +75,7 @@ namespace Hacker.Computer.Core
         EXIT,
         SHOW_ATTACKS,
         CLEAR,
+        STOP,
     }
 
     public enum ComputerStates
@@ -96,6 +97,7 @@ namespace Hacker.Computer.Core
         private bool m_connectToWIFI = true;
         private SecurityLevel m_securityLevel = SecurityLevel.NOOB;
         private List<Security> m_securityList = new List<Security>();
+        private int m_exitSceneIndex;
         private GameObject m_GameObject;
         protected ComputerStates m_computerState = ComputerStates.IDLE;
         protected string m_stats;
@@ -120,6 +122,7 @@ namespace Hacker.Computer.Core
         public string Owner
         {
             get { return m_owner; }
+            set { value = m_owner; }
         }
 
         protected SecurityLevel SecurityLevel
@@ -164,13 +167,22 @@ namespace Hacker.Computer.Core
         public ComputerStates ComputerState
         {
             get { return m_computerState; }
-        } 
+            set { m_computerState = value; }
+        }
+
+        public int ExitScene
+        {
+            get { return m_exitSceneIndex; }
+            set { value = m_exitSceneIndex; }
+        }
+
         //--------------------
 
-        public AbstractComputer(string owner, GameObject gameObjectCreated, int starting_CPUs =  B_DEFAULT_CPUs, int starting_Memory = B_DEFAULT_MEMORY, SecurityLevel securityLevel = B_DEFAULT_SECURITY_LEVEL)
+        public AbstractComputer(string owner, GameObject gameObjectCreated, int sceneIndex, int starting_CPUs =  B_DEFAULT_CPUs, int starting_Memory = B_DEFAULT_MEMORY, SecurityLevel securityLevel = B_DEFAULT_SECURITY_LEVEL)
         {
             m_owner = owner;
             m_CPUs = starting_CPUs;
+            m_exitSceneIndex = sceneIndex;
             m_Memory = starting_Memory;
             m_stats = "This computer is a computer owned by " + m_owner + " with " + m_CPUs.ToString() + "CPUs and " + m_Memory + "GBs of memory.";
             m_GameObject = gameObjectCreated;
@@ -179,10 +191,13 @@ namespace Hacker.Computer.Core
             m_commandList.Add(ConsoleCommand.HISTORY);
             m_commandList.Add(ConsoleCommand.SHOW_STATS);
             m_commandList.Add(ConsoleCommand.CLEAR);
-           
+            m_commandList.Add(ConsoleCommand.STOP);
+            m_commandList.Add(ConsoleCommand.EXIT);
+
+
         }
 
-       public void Attacked(Hack attack, string hackerName)
+        public void Attacked(Hack attack, string hackerName)
         {
             if(attack == Hack.WIFI_KICKER && m_connectToWIFI)
             {
@@ -203,13 +218,13 @@ namespace Hacker.Computer.Core
         public void ImplementCommand(ConsoleCommand command)
         {
             m_computerState = ComputerStates.RUNNING_COMMAND;
-            ShowTextOnMonitor("---------" + command + "---------");
+            ShowTextOnMonitor("------------" + command + "------------");
             //Help - Lists all possible commands.
             if(command == ConsoleCommand.HELP)
             {
                 foreach(ConsoleCommand consoleCommand in m_commandList)
                 {
-                    ShowTextOnMonitor(consoleCommand.ToString(), true);
+                    ShowTextOnMonitor(consoleCommand.ToString().ToLower(), true);
                 }
             }
 
@@ -235,8 +250,19 @@ namespace Hacker.Computer.Core
                 ShowTextOnMonitor("");
             }
 
-            m_computerState = ComputerStates.IDLE;
-            //no need to add anything to the list. The bridge adds it for us.
+            //Stops the currently running command
+            else if(command == ConsoleCommand.STOP)
+            {
+                ShowTextOnMonitor("Command stopped.");
+                m_computerState = ComputerStates.IDLE;
+            }
+
+            else if (command == ConsoleCommand.EXIT)
+            {
+                SceneManager.LoadScene(m_exitSceneIndex);
+            }
+
+            //no need to add anything to the used commands list. The bridge adds it for us.
         }
 
         //todo: fix this method

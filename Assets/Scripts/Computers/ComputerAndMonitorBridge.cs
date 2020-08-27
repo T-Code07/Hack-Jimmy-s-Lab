@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Hacker.Computer.UI;
 using Hacker.Computer.Core;
+
 namespace Hacker.Computer
 {
 
@@ -13,22 +14,53 @@ namespace Hacker.Computer
     [RequireComponent(typeof(InteractWithMonitor))]
     public class ComputerAndMonitorBridge : MonoBehaviour
     {
+        private int m_exitSceneIndex;
         private AbstractComputer m_computerBrain;
         private InteractWithMonitor m_monitor;
-        private bool m_computerCreated = false; 
-        public string m_computerOwner = "Tawesome07";
-        public HackerLevel m_hackerlevel = HackerLevel.NOOB;
+        private bool m_computerCreated = false;
+        private bool m_isPlayerComputer = true;
+        private string m_computerOwner = "Tawesome07";
+        private HackerLevel m_hackerlevel = HackerLevel.NOOB;
       
+
+        public int ExitSceneIndex
+        {
+            get { return m_exitSceneIndex; }
+            set { value = m_exitSceneIndex; }
+        }
+
+        public string ComputerName
+        {
+            get { return m_computerOwner; }
+            set { value = m_computerOwner; }
+        }
+
+        public bool isPlayerComputer
+        {
+            get { return m_isPlayerComputer; }
+            set { value = m_isPlayerComputer; }
+        }
 
         private void Start()
         {
-            m_computerBrain = new AbstractComputer(m_computerOwner, gameObject);
-            m_computerCreated = true; 
+            if (isPlayerComputer)
+            {
+                print("created");
+                m_computerBrain = new AbstractHackerComputer(m_computerOwner, m_hackerlevel, gameObject, m_exitSceneIndex);
+                m_computerCreated = true;
+            }
+            else
+            {
+                m_computerBrain = new CivilianComputer(m_computerOwner, gameObject, m_exitSceneIndex);
+                m_computerCreated = true;
+            }
             m_monitor = GetComponent<InteractWithMonitor>();
 
             m_monitor.SetOwnerLabel(m_computerBrain.Owner);
+            
         }
-    
+
+
         //Public so that there can be a unity message broadcasted to it from the computer class.
         /// <summary>
         /// This will put the text on the monitor from the computer script. 
