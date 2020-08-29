@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
 namespace Hacker.Computer
 {
-    public class ComputerCreator : MonoBehaviour
+    public class ComputerCreator : NetworkBehaviour
     {
 
         [SerializeField] string m_computerOwner;
@@ -18,6 +19,7 @@ namespace Hacker.Computer
             m_Bridge.isPlayerComputer = m_isPlayerComputer;
             m_Bridge.ComputerName = m_computerOwner;
             m_Bridge.ExitSceneIndex = m_computerExitSceneIndex;
+
         }
     }
 }

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Mirror;
+
 namespace Hacker.Computer.Core
 { 
     /*
@@ -60,7 +62,8 @@ namespace Hacker.Computer.Core
         WIFI_KICKER,
         MITM,
         EVIL_CODE,
-        DEFENSE_SCANNER
+        DEFENSE_SCANNER,
+        VICTIM_SCANNER
     }
 
 
@@ -76,6 +79,8 @@ namespace Hacker.Computer.Core
         SHOW_ATTACKS,
         CLEAR,
         STOP,
+        SCAN,
+        ATTACK
     }
 
     public enum ComputerStates
@@ -88,7 +93,7 @@ namespace Hacker.Computer.Core
     /// This is the base class for all computers in this game. It included Console Commands and possible hacks enemies can do. 
     /// Written by Taylor Bledsoe - Main Game Dev. 8/23/20 -
     /// </summary>
-    public class AbstractComputer : MonoBehaviour
+    public class AbstractComputer : NetworkBehaviour
     {
         private string m_owner; //This will tell the hacker who owns the computer
         private int m_CPUs; //How fast the computer will run. 
@@ -215,7 +220,7 @@ namespace Hacker.Computer.Core
            ShowTextOnMonitor("Attack Unsuccessful by " + hackerName + ".");
         }
 
-        public void ImplementCommand(ConsoleCommand command)
+        public virtual void ImplementCommand(ConsoleCommand command)
         {
             m_computerState = ComputerStates.RUNNING_COMMAND;
             ShowTextOnMonitor("------------" + command + "------------");
@@ -259,9 +264,12 @@ namespace Hacker.Computer.Core
 
             else if (command == ConsoleCommand.EXIT)
             {
+                ShowTextOnMonitor("Comming Soon!");
+
                 SceneManager.LoadScene(m_exitSceneIndex);
             }
 
+         
             //no need to add anything to the used commands list. The bridge adds it for us.
         }
 

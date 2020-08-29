@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Mirror;
 
 
 namespace Hacker.Computer.Core
@@ -27,9 +27,27 @@ namespace Hacker.Computer.Core
             m_hackerLevel = hackerLevel;
            
             m_commandList.Add(ConsoleCommand.SHOW_ATTACKS);
+            m_commandList.Add(ConsoleCommand.SCAN);
             
         }
 
+
+        public override void ImplementCommand(ConsoleCommand command)
+        {
+            base.ImplementCommand(command);
+
+            if(command == ConsoleCommand.SCAN)
+            {
+                Scan();
+            }
+
+        }
+
+        [Command]
+        public void Scan()
+        {
+            
+        }
 
     }
 }

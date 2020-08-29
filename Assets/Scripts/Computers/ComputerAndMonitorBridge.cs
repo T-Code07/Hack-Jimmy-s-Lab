@@ -26,19 +26,19 @@ namespace Hacker.Computer
         public int ExitSceneIndex
         {
             get { return m_exitSceneIndex; }
-            set { value = m_exitSceneIndex; }
+            set { m_exitSceneIndex = value; }
         }
 
         public string ComputerName
         {
             get { return m_computerOwner; }
-            set { value = m_computerOwner; }
+            set { m_computerOwner = value; }
         }
 
         public bool isPlayerComputer
         {
             get { return m_isPlayerComputer; }
-            set { value = m_isPlayerComputer; }
+            set { m_isPlayerComputer = value; }
         }
 
         private void Start()
