@@ -29,7 +29,7 @@ namespace Hacker.Computer.Core
            
             m_commandList.Add(ConsoleCommand.SHOW_ATTACKS);
             m_commandList.Add(ConsoleCommand.SCAN);
-
+            m_commandList.Add(ConsoleCommand.ATTACK);
             
         }
 
@@ -43,18 +43,36 @@ namespace Hacker.Computer.Core
                 Scan();
             }
 
+            if(command == ConsoleCommand.ATTACK)
+            {
+                Scan(true);
+            }
+
         }
 
         //[Command]
-        public void Scan()
+        void Scan(bool moreData = false)
         {
             GameManager gameManager = FindObjectOfType<GameManager>();
             foreach(GameObject player in gameManager.m_playerList)
             {
                 ComputerCreator computerCreator = player.GetComponent<ComputerCreator>();
-                base.ShowTextOnMonitor(computerCreator.m_computerOwner, true);
+
+                if (computerCreator.m_computerOwner == Owner) return;
+
+                if (moreData)
+                {
+                    base.ShowTextOnMonitor(player.GetComponent<AbstractHackerComputer>().ToString(), true);
+                }
+                else
+                {
+                    base.ShowTextOnMonitor(computerCreator.m_computerOwner, true);
+
+                }
             }
         }
+
+      
 
     }
 }

@@ -20,10 +20,18 @@ namespace Hacker.Computer
 
         }
 
-      public void createComputer()
+        private void Awake()
+        {
+
+            createComputer();
+        }
+
+        public void createComputer()
         {
             //This tries to create a unique id tag for the computer for later use. 
 
+
+            m_computerOwner = "Hacker";
             print(m_id);
             m_Bridge = GetComponentInChildren<ComputerAndMonitorBridge>();
             m_Bridge.isPlayerComputer = m_isPlayerComputer;

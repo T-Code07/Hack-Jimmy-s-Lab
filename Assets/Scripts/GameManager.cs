@@ -48,7 +48,7 @@ public class GameManager : NetworkBehaviour
                     }
                 }
 
-            NewComputerCreator.createComputer();
+          //  NewComputerCreator.createComputer();
                 print("Added player to server: " + NewComputerCreator.m_computerOwner);
 
             

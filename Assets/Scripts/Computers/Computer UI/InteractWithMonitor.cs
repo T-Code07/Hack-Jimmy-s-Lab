@@ -37,7 +37,9 @@ namespace Hacker.Computer.UI
         //Called in the bridge class
         public void ShowText(string text, bool addText = false)
         {
-            
+            if (m_networkIdentity.isClient)
+            {
+
                 string lastText = m_monitor.text;
                 string finishedText = text;
 
@@ -49,14 +51,19 @@ namespace Hacker.Computer.UI
 
                 }
                 m_monitor.text = finishedText;
+            }
             
         }
 
         //Run at start by bridge.
         public void SetOwnerLabel(string ownerName)
         {
-            
+            m_networkIdentity = GetComponentInParent<NetworkIdentity>();
+
+            if (m_networkIdentity.isClient)
+            {
                 m_ownerLabel.text = ownerName + "'s Computer:";
+            }
             
         }
 
