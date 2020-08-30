@@ -152,13 +152,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  m_players:
+  m_playerList:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  m_fps_view: {fileID: 4730687345078979949, guid: 2c5de33abf7b17e4f8a7aeccbe11cd90,
-    type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  m_fps_view: {fileID: 0}
 --- !u!114 &437159085
 MonoBehaviour:
   m_ObjectHideFlags: 0

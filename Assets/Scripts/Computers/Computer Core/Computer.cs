@@ -266,7 +266,7 @@ namespace Hacker.Computer.Core
             {
                 ShowTextOnMonitor("Comming Soon!");
 
-                SceneManager.LoadScene(m_exitSceneIndex);
+             //   SceneManager.LoadScene(m_exitSceneIndex);
             }
 
          

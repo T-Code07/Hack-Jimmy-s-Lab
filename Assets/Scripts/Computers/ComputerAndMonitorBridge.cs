@@ -11,7 +11,7 @@ namespace Hacker.Computer
     /// <summary>
     /// This bridges the gap between the UI controls and the hard computer data.
     /// </summary>
-    [RequireComponent(typeof(InteractWithMonitor))]
+ 
     public class ComputerAndMonitorBridge : MonoBehaviour
     {
         private int m_exitSceneIndex;
@@ -54,7 +54,7 @@ namespace Hacker.Computer
                 m_computerBrain = new CivilianComputer(m_computerOwner, gameObject, m_exitSceneIndex);
                 m_computerCreated = true;
             }
-            m_monitor = GetComponent<InteractWithMonitor>();
+            m_monitor = GetComponentInChildren<InteractWithMonitor>();
 
             m_monitor.SetOwnerLabel(m_computerBrain.Owner);
             

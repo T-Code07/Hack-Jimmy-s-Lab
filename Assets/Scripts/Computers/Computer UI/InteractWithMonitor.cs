@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using Mirror;
 namespace Hacker.Computer.UI
 {
-    [RequireComponent(typeof(ComputerAndMonitorBridge))]
     /// <summary>
     /// This is the UI part of the computer. It is connected to the data computer by the ComputerAndMonitorBridge.
     /// </summary>
@@ -27,7 +26,7 @@ namespace Hacker.Computer.UI
 
             m_inputField.onEndEdit.AddListener(OnInputChanged);
             m_monitor.text = "";
-            m_bridge = GetComponent<ComputerAndMonitorBridge>();
+            m_bridge = GetComponentInParent<ComputerAndMonitorBridge>();
             m_networkIdentity = GetComponentInParent<NetworkIdentity>();
 
             Cursor.lockState = CursorLockMode.None;
